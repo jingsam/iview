@@ -43,6 +43,7 @@
     "vue": "^1.0.17"
   },
   "devDependencies": {
+    "autoprefixer": "^6.5.3",
     "autoprefixer-loader": "^2.0.0",
     "babel": "^6.3.13",
     "babel-core": "^6.11.4",
@@ -60,10 +61,15 @@
     "gulp-autoprefixer": "^3.1.1",
     "gulp-clean-css": "^2.0.13",
     "gulp-less": "^3.1.0",
+    "gulp-postcss": "^6.2.0",
     "gulp-rename": "^1.2.2",
     "html-loader": "^0.3.0",
     "less": "^2.7.1",
     "less-loader": "^2.2.3",
+    "postcss-clean": "^1.0.2",
+    "postcss-less-engine": "^0.6.2",
+    "postcss-load-config": "^1.0.0",
+    "postcss-loader": "^1.1.1",
     "style-loader": "^0.13.1",
     "url-loader": "^0.5.7",
     "vue": "^1.0.26",

@@ -1,19 +1,21 @@
 var gulp = require('gulp');
-var cleanCSS = require('gulp-clean-css');
-var less = require('gulp-less');
 var rename = require('gulp-rename');
-var autoprefixer = require('gulp-autoprefixer');
+var postcss = require('gulp-postcss');
+var less = require('postcss-less-engine');
+var autoprefixer = require('autoprefixer');
+var clean = require('postcss-clean');
+
 
 // 编译less
 gulp.task('css', function () {
      gulp.src('../src/styles/index.less')
-         .pipe(less())
-         .pipe(autoprefixer({
-            browsers: ['last 2 versions', 'ie > 8']
-         }))
-         .pipe(cleanCSS())
-         .pipe(rename('iview.css'))
-         .pipe(gulp.dest('../dist/styles'))
+        .pipe(postcss([
+            less(),
+            autoprefixer({ "browsers": ['last 2 versions', 'ie > 8'] }),
+            clean()
+        ], { parser: less.parser }))
+        .pipe(rename('iview.css'))
+        .pipe(gulp.dest('../dist/styles'))
 });
 
 // 拷贝字体文件

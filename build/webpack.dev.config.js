@@ -5,6 +5,9 @@
 var path = require('path');
 var webpack = require('webpack');
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
+var less = require('postcss-less-engine');
+var autoprefixer = require('autoprefixer');
+var clean = require('postcss-clean');
 
 module.exports = {
     // 入口
@@ -25,7 +28,7 @@ module.exports = {
             { test: /\.vue$/, loader: 'vue' },
             { test: /\.js$/, loader: 'babel', exclude: /node_modules/ },
             { test: /\.css$/, loader: 'style!css!autoprefixer'},
-            { test: /\.less$/, loader: 'style!css!less' },
+            { test: /\.less$/, loader: 'style!css!postcss?parser=less' },
             { test: /\.scss$/, loader: 'style!css!sass?sourceMap'},
             { test: /\.(gif|jpg|png|woff|svg|eot|ttf)\??.*$/, loader: 'url-loader?limit=8192'},
             { test: /\.(html|tpl)$/, loader: 'html-loader' }
@@ -44,8 +47,12 @@ module.exports = {
                 'vue-style-loader',
                 'css-loader!less-loader'
             ),
+            postcss: [less, autoprefixer, clean],
             js: 'babel'
         }
+    },
+    postcss: function () {
+        return [less, autoprefixer, clean];
     },
     resolve: {
         // require时省略的扩展名，如：require('module') 不需要module.js
