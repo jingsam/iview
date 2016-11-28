@@ -24,35 +24,48 @@ module.exports = {
     },
     // 加载器
     module: {
-        loaders: [
-            { test: /\.vue$/, loader: 'vue' },
-            { test: /\.js$/, loader: 'babel', exclude: /node_modules/ },
-            { test: /\.css$/, loader: 'style!css!autoprefixer'},
-            { test: /\.less$/, loader: 'style!css!postcss?parser=less' },
-            { test: /\.scss$/, loader: 'style!css!sass?sourceMap'},
-            { test: /\.(gif|jpg|png|woff|svg|eot|ttf)\??.*$/, loader: 'url-loader?limit=8192'},
-            { test: /\.(html|tpl)$/, loader: 'html-loader' }
-        ]
-    },
-    vue: {
-        loaders: {
-            css: ExtractTextPlugin.extract(
-                "style-loader",
-                "css-loader?sourceMap",
-                {
-                    publicPath: "/test/dist/"
-                }
-            ),
-            less: ExtractTextPlugin.extract(
-                'vue-style-loader',
-                'css-loader!less-loader'
-            ),
-            postcss: [less, autoprefixer, clean],
-            js: 'babel'
-        }
+        loaders: [{
+            test: /\.vue$/,
+            loader: 'vue'
+        }, {
+            test: /\.js$/,
+            loader: 'babel',
+            exclude: /node_modules/
+        }, {
+            test: /\.css$/,
+            loader: ExtractTextPlugin.extract('style-loader', 'css-loader?importLoaders=1!postcss-loader')
+        },  {
+            test: /\.less$/,
+            loader: ExtractTextPlugin.extract('style-loader', 'css-loader?importLoaders=1!postcss-loader?parser=less')
+        },  {
+            test: /\.scss$/,
+            loader: ExtractTextPlugin.extract('style-loader', 'css-loader?importLoaders=1!postcss-loader?parser=scss')
+        }, {
+            test: /\.(gif|jpg|png|woff|svg|eot|ttf)\??.*$/,
+            loader: 'url-loader?limit=8192'
+        }, {
+            test: /\.(html|tpl)$/,
+            loader: 'html-loader'
+        }]
     },
     postcss: function () {
         return [less, autoprefixer, clean];
+    },
+    vue: {
+        loaders: {
+            css: ExtractTextPlugin.extract('vue-style-loader', 'css-loader'),
+            less: ExtractTextPlugin.extract('vue-style-loader', 'css-loader!less-loader'),
+            postcss: {
+                plugins: [
+                    less,
+                    autoprefixer,
+                    clean
+                ],
+                options: {
+                    parser: less.parser
+                }
+            }
+        }
     },
     resolve: {
         // require时省略的扩展名，如：require('module') 不需要module.js
@@ -62,7 +75,7 @@ module.exports = {
         }
     },
     plugins: [
-        new ExtractTextPlugin("[name].css",{ allChunks : true,resolve : ['modules'] }),             // 提取CSS
-        new webpack.optimize.CommonsChunkPlugin('vendors', 'vendors.js'),                           // 提取第三方库
+        new ExtractTextPlugin('[name].css', { allChunks : true}),           // 提取CSS
+        new webpack.optimize.CommonsChunkPlugin('vendors', 'vendors.js')    // 提取第三方库
     ]
 };
