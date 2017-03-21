@@ -1,13 +1,13 @@
 /**
  *  String format template
- *  - Inspired:
- *    https://github.com/Matt-Esch/string-template/index.js
+ *  - Inspired by:
+ *    https://github.com/Matt-Esch/string-template/blob/master/index.js
  */
 
 const RE_NARGS = /(%|)\{([0-9a-zA-Z_]+)\}/g;
 
-export default function(Vue) {
-    const { hasOwn } = Vue.util;
+export default function() {
+    const hasOwn = Object.prototype.hasOwnProperty;
 
     /**
      * template
