@@ -3,9 +3,8 @@
 import defaultLang from './lang/zh-CN';
 import Vue from 'vue';
 import deepmerge from 'deepmerge';
-import Format from './format';
+import format from './format';
 
-const format = Format(Vue);
 let lang = defaultLang;
 let merged = false;
 let i18nHandler = function() {
